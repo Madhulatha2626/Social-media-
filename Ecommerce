@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern E-Commerce Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cart-notification {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .search-bar:focus {
+            outline: 2px solid var(--primary-light);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://placehold.co/40x40" alt="Minimalist geometric logo in indigo and white" class="h-10 w-10">
+                <span class="text-xl font-bold text-indigo-600">ShopNest</span>
+            </div>
+            
+            <div class="hidden md:flex flex-1 mx-10">
+                <input type="text" placeholder="Search products..." class="search-bar w-full px-4 py-2 rounded-full border border-gray-300 focus:border-indigo-500">
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <button class="relative p-2 text-gray-600 hover:text-indigo-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </button>
+                
+                <button class="relative p-2 text-gray-600 hover:text-indigo-600" id="cart-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden" id="cart-count">0</span>
+                </button>
+                
+                <button class="hidden md:block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">Sign In</button>
+                
+                <button class="md:hidden p-2 text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="mobile-search md:hidden px-4 pb-4">
+            <input type="text" placeholder="Search products..." class="search-bar w-full px-4 py-2 rounded-full border border-gray-300 focus:border-indigo-500">
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-8 mb-10 text-white">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl font-bold mb-4">Summer Collection 2023</h1>
+                <p class="text-lg mb-6">Discover our latest arrivals designed for comfort and style</p>
+                <button class="bg-white text-indigo-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition">Shop Now</button>
+            </div>
+        </div>
+        
+        <!-- Categories -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800">Shop by Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition cursor-pointer">
+                    <img src="https://placehold.co/400x300" alt="Various tech gadgets including smartphones, laptops, and headphones displayed on a white background" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800">Electronics</h3>
+                        <p class="text-sm text-gray-500">120 products</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition cursor-pointer">
+                    <img src="https://placehold.co/400x300" alt="Assortment of casual and formal clothing arranged neatly on hangers" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800">Clothing</h3>
+                        <p class="text-sm text-gray-500">85 products</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition cursor-pointer">
+                    <img src="https://placehold.co/400x300" alt="Stylish furniture set including a sofa, coffee table and lamp in a modern living room" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800">Home & Furniture</h3>
+                        <p class="text-sm text-gray-500">64 products</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition cursor-pointer">
+                    <img src="https://placehold.co/400x300" alt="Colorful arrangement of beauty products including makeup, skincare and brushes" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-800">Beauty</h3>
+                        <p class="text-sm text-gray-500">49 products</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Products Section -->
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800">Featured Products</h2>
+                <select class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option>Sort by: Featured</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Newest Arrivals</option>
+                    <option>Best Rating</option>
+                </select>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="products-grid">
+                <!-- Product cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="https://placehold.co/40x40" alt="Minimalist geometric logo in white" class="h-10 w-10">
+                        <span class="text-xl font-bold">ShopNest</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Your one-stop shop for all things lifestyle and technology.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Shop</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">All Products</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Featured</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">New Arrivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sales</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Subscribe to get updates on new products and special offers.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l-md focus:outline-none text-gray-900">
+                        <button type="submit" class="bg-indigo-600 px-4 py-2 rounded-r-md hover:bg-indigo-700 transition">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2023 ShopNest. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-20">
+        <div class="flex flex-col h-full">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-xl font-semibold">Your Cart</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4" id="cart-items">
+                <div class="text-center py-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <p class="text-gray-500">Your cart is empty</p>
+                </div>
+            </div>
+            
+            <div class="border-t p-4">
+                <div class="flex justify-between mb-4">
+                    <span class="font-semibold">Subtotal</span>
+                    <span class="font-semibold" id="cart-total">$0.00</span>
+                </div>
+                <button class="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition">Checkout</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Notification -->
+    <div id="cart-notification" class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg hidden">
+        Item added to cart!
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden"></div>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "Wireless Headphones",
+                price: 129.99,
+                rating: 4.5,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Premium wireless headphones in black with silver accents on a white background",
+                category: "Electronics",
+                description: "Premium wireless headphones with noise cancellation feature"
+            },
+            {
+                id: 2,
+                name: "Smart Watch Pro",
+                price: 199.99,
+                rating: 4.7,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Modern smartwatch with black band and rectangular touchscreen displaying health metrics",
+                category: "Electronics",
+                description: "Track your fitness goals with this advanced smartwatch"
+            },
+            {
+                id: 3,
+                name: "Cotton T-Shirt",
+                price: 24.99,
+                rating: 4.2,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Plain white cotton t-shirt folded neatly on a wooden surface",
+                category: "Clothing",
+                description: "Comfortable 100% cotton t-shirt available in multiple colors"
+            },
+            {
+                id: 4,
+                name: "Leather Wallet",
+                price: 49.99,
+                rating: 4.4,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Brown genuine leather wallet with multiple card slots lying open",
+                category: "Accessories",
+                description: "Handcrafted genuine leather wallet with RFID protection"
+            },
+            {
+                id: 5,
+                name: "Ceramic Mug Set",
+                price: 29.99,
+                rating: 4.8,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Set of three ceramic mugs in different colors arranged diagonally",
+                category: "Home",
+                description: "Set of 3 premium ceramic mugs with ergonomic design"
+            },
+            {
+                id: 6,
+                name: "Bluetooth Speaker",
+                price: 79.99,
+                rating: 4.3,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Compact cylindrical bluetooth speaker in charcoal gray on marble surface",
+                category: "Electronics",
+                description: "Portable bluetooth speaker with 12-hour battery life"
+            },
+            {
+                id: 7,
+                name: "Yoga Mat",
+                price: 34.99,
+                rating: 4.6,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Purple eco-friendly yoga mat rolled up with strap",
+                category: "Fitness",
+                description: "Non-slip eco-friendly yoga mat with carrying strap"
+            },
+            {
+                id: 8,
+                name: "Wooden Phone Stand",
+                price: 14.99,
+                rating: 4.1,
+                image: "https://placehold.co/400x300",
+                imageAlt: "Minimalist light wood phone stand holding a smartphone at an angle",
+                category: "Accessories",
+                description: "Handcrafted wooden stand for smartphones and tablets"
+            }
+        ];
+
+        // Cart functionality
+        let cart = [];
+        
+        // DOM Elements
+        const productsGrid = document.getElementById('products-grid');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const cartCount = document.getElementById('cart-count');
+        const cartBtn = document.getElementById('cart-btn');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('overlay');
+        const cartNotification = document.getElementById('cart-notification');
+        
+        // Render products
+        function renderProducts() {
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300 hover:shadow-md';
+                
+                productCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.imageAlt}" class="w-full h-48 object-cover">
+                        ${product.rating > 4.5 ? 
+                            '<span class="absolute top-2 right-2 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">Hot</span>' : ''}
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium text-gray-800">${product.name}</h3>
+                            <span class="text-indigo-600 font-semibold">$${product.price.toFixed(2)}</span>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            ${renderRating(product.rating)}
+                            <span class="text-gray-500 text-xs ml-2">${product.rating}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">${product.description}</p>
+                        <button class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition add-to-cart" data-id="${product.id}">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Add event listeners to add-to-cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+        }
+        
+        // Render rating stars
+        function renderRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+            }
+            
+            for (let i = 0; i < 5 - Math.ceil(rating); i++) {
+                stars += '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>';
+            }
+            
+            return stars;
+        }
+        
+        // Add to cart function
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showNotification();
+        }
+        
+        // Update cart UI
+        function updateCart() {
+            // Update cart items list
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-8">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <p class="text-gray-500">Your cart is empty</p>
+                    </div>
+                `;
+            } else {
+                cartItems.innerHTML = '';
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'flex mb-4 pb-4 border-b';
+                    
+                    cartItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.imageAlt}" class="w-20 h-20 object-cover rounded">
+                        <div class="ml-4 flex-1">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium text-gray-800">${item.name}</h4>
+                                <span class="font-semibold">$${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                            <div class="flex items-center mt-2">
+                                <button class="quantity-btn text-gray-500 hover:text-indigo-600" data-id="${item.id}" data-action="decrease">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                                    </svg>
+                                </button>
+                                <span class="mx-2 text-sm">${item.quantity}</span>
+                                <button class="quantity-btn text-gray-500 hover:text-indigo-600" data-id="${item.id}" data-action="increase">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                </button>
+                                <button class="ml-auto text-red-500 hover:text-red-700 text-sm remove-btn" data-id="${item.id}">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    cartItems.appendChild(cartItem);
+                });
+            }
+            
+            // Update cart total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+            
+            // Update cart count
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = count.toString();
+            count > 0 ? cartCount.classList.remove('hidden') : cartCount.classList.add('hidden');
+            
+            // Add event listeners to quantity buttons
+            document.querySelectorAll('.quantity-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    const action = e.target.getAttribute('data-action');
+                    updateQuantity(productId, action);
+                });
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    removeFromCart(productId);
+                });
+            });
+        }
+        
+        // Update item quantity
+        function updateQuantity(productId, action) {
+            const item = cart.find(item => item.id === productId);
+            
+            if (action === 'increase') {
+                item.quantity += 1;
+            } else if (action === 'decrease' && item.quantity > 1) {
+                item.quantity -= 1;
+            }
+            
+            updateCart();
+        }
+        
+        // Remove item from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+        
+        // Show added to cart notification
+        function showNotification() {
+            cartNotification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                cartNotification.classList.add('hidden');
+            }, 2000);
+        }
+        
+        // Toggle cart sidebar
+        function toggleCart() {
+            cartSidebar.classList.toggle('translate-x-full');
+            cartSidebar.classList.toggle('translate-x-0');
+            overlay.classList.toggle('hidden');
+        }
+        
+        // Event listeners
+        cartBtn.addEventListener('click', toggleCart);
+        closeCartBtn.addEventListener('click', toggleCart);
+        overlay.addEventListener('click', toggleCart);
+        
+        // Initialize
+        renderProducts();
+    </script>
+</body>
+</html>
+
